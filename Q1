@@ -1,0 +1,78 @@
+library(fpp3)
+install.packages('readxl')
+install.packages('tidyverse')
+library('tidyverse')
+
+head(data)
+data <- readxl::read_excel('tourism.xlsx')
+str(data1)
+str(tourism)
+
+data1 %>% distinct(State)
+data1 %>%
+filter(Trips == max(Trips))
+#filter(Region == 'Gold Coast')
+RegionPurpose <- paste(Region, Purpose)
+head(RegionPurpose)
+
+data2 %>% 
+  group_by(State, RegionPurpose) %>% 
+  summarise(across(Trips, sum)) %>%
+mutate(RegionPurpose = RegionPurpose)
+data2 %>% distinct(RegionPurpose)
+str(data)
+
+gc_tourism <- data %>%
+    mutate(Quarter = yearquarter(Quarter)) %>%
+    as_tsibble(key = c(Region, Purpose),
+              index = Quarter) %>%
+    filter(Region == "Gold Coast") %>%
+    group_by(Purpose, Region) %>%
+    summarise(across(Trips, sum)) %>%
+    mutate(Region = Region, Purpose = Purpose, Quarter = Quarter) %>%
+    relocate(Quarter)
+head(gc_tourism)
+
+gc_tourism %>% relocate(Quarter) -> gc_tourism
+tail(gc_tourism)
+gc_tourism %>% distinct(Region)
+
+gc_train <- gc_tourism %>%
+filter (year(Quarter) <2015)
+#filter_index("1998 Q1 ~ 2014 Q3")
+length(gc_train$Trips)
+
+gc_train_1 <- gc_train %>%
+slice(1:(n()-40))
+str(gc_train_1)
+gc_train_2 <- gc_train %>%
+slice(0:n()-5)
+print(gc_train_2)
+gc_train_3 <- gc_train %>%
+slice(n()-25:0)
+str(gc_train_3)
+
+gc_fc_1 <- gc_train_1 %>%
+    model(SNAIVE(Trips ~ lag("year"))) %>%
+    forecast(h = 4)
+gc_fc_2 <- gc_train_2 %>% 
+    model(SNAIVE(Trips ~ lag("year"))) %>%
+    forecast(h = 4)
+gc_fc_3 <- gc_train_3 %>% 
+    model(SNAIVE(Trips ~ lag("year"))) %>%
+    forecast(h = 4)
+autoplot(gc_fc_1)
+
+mean(Trips)
+head(gc_fc_3)
+accuracy(gc_fc_1, gc_tourism)
+accuracy(gc_fc_2, gc_tourism)
+accuracy(gc_fc_3, gc_tourism)
+
+set.seed(51167498)
+myseries <- aus_retail %>%
+    mutate(Month = yearmonth(Month)) %>%
+    as_tsibble(key = c(State, Industry), index=Month)
+head(myseries)
+
+filter(Industry == 'Clothing retailing')
