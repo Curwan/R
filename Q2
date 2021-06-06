@@ -1,0 +1,41 @@
+library(fpp3)
+library(dplyr)
+head(aus_retail)
+set.seed(511)
+myseries <- aus_retail %>%
+    #filter('Series ID' == sample(aus_retail$'Series ID'))
+    #mutate(Month = yearmonth(Month)) %>%
+    #as_tsibble(key = c(State, Industry), index = Month) %>%
+    #filter('Industry' == sample(aus_retail$'Industry',1))
+    filter(Industry == 'Clothing retailing', State == 'Victoria')
+          #Series ID == 'A3349483V')
+str(myseries)
+
+#gc_tourism <- data %>%
+#    mutate(Quarter = yearquarter(Quarter)) %>%
+ #   as_tsibble(key = c(Region, Purpose),
+  #            index = Quarter) %>%
+ #   filter(Region == "Gold Coast") %>%
+ #   group_by(Purpose, Region) %>%
+ #   summarise(across(Trips, sum)) %>%
+ #   mutate(Region = Region, Purpose = Purpose, Quarter = Quarter)
+autoplot(myseries, Turnover)
+gg_season(myseries, Turnover)
+
+gg_lag(myseries, Turnover, geom="point")
+myseries %>%
+ACF(Turnover, lag_max = 48) %>%
+autoplot()
+myseries_train <- myseries %>%
+    filter(year(Month) < 2011)
+autoplot(myseries, Turnover) + 
+    autolayer(myseries_train, Turnover, colour = "red")
+fit <- myseries_train %>%
+    model(SNAIVE(Turnover ~ lag("year")))
+fit %>% gg_tsresiduals()
+print(fit)
+fc <- fit %>%
+    forecast(new_data = anti_join(myseries, myseries_train))
+fc %>% autoplot(myseries)
+fit %>% accuracy()
+fc %>% accuracy(myseries)
