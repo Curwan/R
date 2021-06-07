@@ -1,0 +1,37 @@
+library(fpp3)
+library(GGally)
+str(olympic_running)
+
+Mens200 <- olympic_running %>%
+    filter(Sex == 'men', Length == '200')
+#autoplot(Mens200, Time) + 
+#    labs(title = "Olympic winning times from Men's 200m", x = "Year", y = "Winning Time")
+head(Mens200)
+
+Mens200 %>%
+    #features(Time, feat_stl) %>%
+    ggplot(aes(x = Year, y = Time)) +
+    labs(y = "Winning Time (seconds)",
+        x = "Year") +
+    geom_point() 
+
+Mens200 %>%
+    ggplot(aes(x = Year, y = Time)) +
+    labs(y = "Winning Time (seconds)",
+        x = "Year") +
+    geom_point() + 
+    geom_smooth(method = "lm", se = FALSE)
+
+fit <- Mens200 %>%
+    model(TSLM(Time ~ Year)) %>%
+report()
+fit %>% gg_tsresiduals()
+
+fc_mens200 <- forecast(fit)
+fc_mens200 %>%
+    autoplot(Mens200) + 
+    labs(title = "Forecast of Winning Men's 200m Time using regression",
+        y = "Winning Time")
+
+hilo(fc_mens200)
+
