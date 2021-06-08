@@ -1,0 +1,41 @@
+library(fpp3)
+str(souvenirs)
+autoplot(souvenirs) + 
+labs(title = 'Time Plot of Souvenir Sales', y = 'Sales', x = 'Month')
+fit <- souvenirs %>%
+    model(TSLM(log(Sales) ~ trend() + season())) %>%
+report()
+
+fit %>% gg_tsresiduals()
+checkresiduals(fit)
+head(augment(fit))
+augment(fit) %>%
+    group_by(Month) %>%
+    ggplot(aes(x=.fitted, y=.innov,))+
+    labs(title = 'Plot of Residuals over Fitted Values',
+    y = 'Innovation Residuals', x = 'Fitted Values')+
+    geom_point()  
+augment(fit) %>%
+    mutate()
+    ggplot(aes(x=Month, y=.innov,)) +
+    geom_boxplot()
+augment(fit) %>% features(.innov, ljung_box, lag=16, dof=11)
+print(augment(fit))
+
+fit %>% forecast(h='3 years') %>%
+hilo()
+
+fc_Sales %>%
+    autoplot(fc_Sales)
+    
+   head(fc_Sales) 
+    
+mod <- augment(fit)
+head(mod)    
+
+autoplot(souvenirs, Sales)+
+autolayer(mod, .fitted, colour='red')+
+#autoplot(mod[,'Sales'], series='Data') + 
+#autolayer(fitted(mod), series="Fitted")
+labs(title = 'Time Plot of Souvenir Sales and Fitted Values',
+     y ='Sales & Fitted Sales' , x = 'Month')
