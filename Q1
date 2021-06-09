@@ -1,8 +1,10 @@
+#Import relevant libraries
 library(fpp3)
 install.packages('readxl')
 install.packages('tidyverse')
 library('tidyverse')
 
+#Chech the layout of your data and the features
 head(data)
 data <- readxl::read_excel('tourism.xlsx')
 str(data1)
@@ -37,6 +39,7 @@ gc_tourism %>% relocate(Quarter) -> gc_tourism
 tail(gc_tourism)
 gc_tourism %>% distinct(Region)
 
+#Create training data 
 gc_train <- gc_tourism %>%
 filter (year(Quarter) <2015)
 #filter_index("1998 Q1 ~ 2014 Q3")
@@ -52,6 +55,7 @@ gc_train_3 <- gc_train %>%
 slice(n()-25:0)
 str(gc_train_3)
 
+#Create Forecast
 gc_fc_1 <- gc_train_1 %>%
     model(SNAIVE(Trips ~ lag("year"))) %>%
     forecast(h = 4)
@@ -63,6 +67,7 @@ gc_fc_3 <- gc_train_3 %>%
     forecast(h = 4)
 autoplot(gc_fc_1)
 
+#Test accuracy of forecast
 mean(Trips)
 head(gc_fc_3)
 accuracy(gc_fc_1, gc_tourism)
