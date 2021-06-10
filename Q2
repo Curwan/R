@@ -1,7 +1,12 @@
+#import libraries
 library(fpp3)
 library(dplyr)
+
+
 head(aus_retail)
 set.seed(511)
+
+#create stibble 
 myseries <- aus_retail %>%
     #filter('Series ID' == sample(aus_retail$'Series ID'))
     #mutate(Month = yearmonth(Month)) %>%
@@ -11,6 +16,7 @@ myseries <- aus_retail %>%
           #Series ID == 'A3349483V')
 str(myseries)
 
+#create stibble
 #gc_tourism <- data %>%
 #    mutate(Quarter = yearquarter(Quarter)) %>%
  #   as_tsibble(key = c(Region, Purpose),
@@ -19,21 +25,28 @@ str(myseries)
  #   group_by(Purpose, Region) %>%
  #   summarise(across(Trips, sum)) %>%
  #   mutate(Region = Region, Purpose = Purpose, Quarter = Quarter)
+
+#plot figure and do tests
 autoplot(myseries, Turnover)
 gg_season(myseries, Turnover)
-
 gg_lag(myseries, Turnover, geom="point")
 myseries %>%
 ACF(Turnover, lag_max = 48) %>%
 autoplot()
+
+#create training set
 myseries_train <- myseries %>%
     filter(year(Month) < 2011)
 autoplot(myseries, Turnover) + 
     autolayer(myseries_train, Turnover, colour = "red")
+
+#fit model to training data
 fit <- myseries_train %>%
     model(SNAIVE(Turnover ~ lag("year")))
 fit %>% gg_tsresiduals()
 print(fit)
+
+#create forecast
 fc <- fit %>%
     forecast(new_data = anti_join(myseries, myseries_train))
 fc %>% autoplot(myseries)
