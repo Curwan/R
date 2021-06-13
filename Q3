@@ -1,7 +1,9 @@
+#Import libraries
 library(fpp3)
 library(GGally)
 str(olympic_running)
 
+#Create ulique tsibble time series
 Mens200 <- olympic_running %>%
     filter(Sex == 'men', Length == '200')
 #autoplot(Mens200, Time) + 
@@ -22,11 +24,14 @@ Mens200 %>%
     geom_point() + 
     geom_smooth(method = "lm", se = FALSE)
 
+#Fit data to a model
 fit <- Mens200 %>%
     model(TSLM(Time ~ Year)) %>%
 report()
 fit %>% gg_tsresiduals()
 
+
+#Use model to create a forecast 
 fc_mens200 <- forecast(fit)
 fc_mens200 %>%
     autoplot(Mens200) + 
