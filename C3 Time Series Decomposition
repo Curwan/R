@@ -1,0 +1,57 @@
+library(fpp3)
+#Population Adjustments
+global_economy %>%
+    filter(Country == "Australia") %>%
+    autoplot(GDP/Population) +
+    labs(title= "GDP per capita", y ="$US")
+
+#Inflation Adjustments
+print_retail <- aus_retail %>%
+    filter(Industry == "Newspaper and book retailing") %>%
+    group_by(Industry) %>%
+    index_by(Year = year(Month)) %>%
+    summarise(Turnover = sum(Turnover))
+aus_economy <- global_economy %>%
+    filter(Code =="AUS")
+print_retail %>%
+    left_join(aus_economy, by = "Year") %>%
+    mutate(Adjusted_turnover = Turnover / CPI * 100) %>%
+    pivot_longer(c(Turnover, Adjusted_turnover),
+                values_to = "Turnover") %>%
+    mutate(name = factor(name, levels=c("Turnover","Adjusted_turnover"))) %>%
+    ggplot(aes(x = Year, y=Turnover)) +
+    geom_line() +
+    facet_grid(name ~ ., scales = "free_y") +
+    labs(title = "Turnover: Austalian print media industry", y="$AU")
+
+#Mathematical transformations
+lambda <- aus_production %>%
+    features(Gas, features = guerrero) %>%
+    pull(lambda_guerrero)
+aus_production %>%
+    autoplot(box_cox(Gas, lambda)) 
+  #  labs(y = "",
+   #     title = latex2exp::TeX(paste0("Transformed gas production with $\\lambda$ = ", 
+    #                                 round(lambda,2))))
+
+#Decomposition
+us_retail_employment <- us_employment %>%
+    filter(year(Month) >= 1990, Title == "Retail Trade") %>%
+    select(-Series_ID)
+autoplot(us_retail_employment, Employed) +
+    labs(y = "Persons (thousands)",
+        title = "Total employment in US retail")
+
+dcmp <- us_retail_employment %>%
+    model(stl = STL(Employed))
+components(dcmp)
+
+components(dcmp) %>%
+    as_tsibble() %>%
+    autoplot(Employed, colour="gray") +
+    geom_line(aes(y=trend), colour="#D55E00") +
+    labs(y = "Persons (thousands)",
+        title = "Total employment in US retail")
+        
+#Plot each decomposition seperately        
+components(dcmp) %>% autoplot()
