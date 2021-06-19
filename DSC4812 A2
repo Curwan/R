@@ -2,6 +2,10 @@ library(fpp3)
 str(global_economy)
 unique(global_economy['Country'])
 
+armenian_econ <- global_economy %>%
+filter(Country=="Armenia", Year >= "1990") %>%
+summarise(Exports) %>%
+autoplot(armenian_econ)
 
-
-
+fit <- armenian_econ %>%
+model(ETS(Exports ~ error("A") + trend("N") + season("N")))
