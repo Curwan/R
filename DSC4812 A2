@@ -1,0 +1,7 @@
+library(fpp3)
+str(global_economy)
+unique(global_economy['Country'])
+
+
+
+
