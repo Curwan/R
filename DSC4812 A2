@@ -44,54 +44,75 @@ gg_tsresiduals()
 fit1 %>%
 gg_tsresiduals()
 __________________________________________________________________________________________
+library(fpp3)
 
 unique(aus_arrivals$Origin)
 
 trips <- aus_arrivals %>%
   filter(Origin=="NZ") %>%
-  index_by(Quarter)???
+  select(Arrivals)
+  #index_by(Quarter)???
 
 trips %>%
   autoplot(Arrivals)
 
-trips %>
+#Do decomposition to see what pattern lies in the errors.
+trips %>%
   model(classical_decomposition(Arrivals, type ='multiplicative')) %>%
   components() %>%
   autoplot()
 
 train <- trips %>%
-   filter(year(Quarter) <='2010 Q3')
+  filter_index(~'2010 Q3')
 
 fit_train <- train %>%
   model(hw = ETS(Arrivals ~ error("M") + trend("A") + season("M")))
 
-fit_train %>%
-  forecast(h=8) %>%
-  autoplot()
-  
+fc <- fit_train %>%
+  forecast(h=8)
+
+fc %>%
+  autoplot(train, level=NULL)+
+  autolayer(
+    filter_index(trips, '2010 Q4' ~ .), colour = 'black')
+
+#fit_all <- train %>%
+#  model(
+#    ETS(Arrivals ~ error("M") + trend("N") + season("N"),
+    
+
+
 fc1 <- train %>%
-  model(ETS(Arrivals ~ error("M") + trend("N") + season("N") %>%
+  model(ETS(Arrivals ~ error("M") + trend("N") + season("N"))) %>%
   forecast(h=8)
 
 train2 <- train %>%
-  summarise(Arrivals = sum(Arrivals)/1e3)
+  summarise(Arrivals = log(Arrivals))
+  
 fc2 <- train2 %>%  
-  model(additive = ETS(Arrivals ~ error("A") + trend("A") + season("A")) %>%
+  model(additive = ETS(Arrivals ~ error("A") + trend("A") + season("A"))) %>%
   forecast(h=8)
   
 fc3 <- train %>%
-  model(SNAIVE(Arrivals ~ lag("year") %>%
+  model(SNAIVE(Arrivals ~ lag("year"))) %>%
   forecast(h=8)
   
 fc4 <- train2 %>%
   model(STL(Arrivals ~ trend(window = 7) + season(window='periodic'),
-  robust=TRUE) %>%
-  components() %>%
-  autoplot()
-fc4 %>%
-  model(EST(Arrivals ~ error("A") + trend("N") + season("N") %>%
+  robust=TRUE)) %>%
+  components()
+
+adjusted <- fc4 %>%  
+  mutate(Arrivals = season_adjust) %>%
+  select(Arrivals)
+
+fc5 <- adjusted %>%
+  model(ETS(Arrivals ~ error("M") + trend("N") + season("N"))) %>%
   forecast(h=8)
-  
+
+test_all <- fc %>%
+  mutate(fc1, fc2, fc3, fc5)
+
 best_fc %>%
 gg_tsresiduals()
   
