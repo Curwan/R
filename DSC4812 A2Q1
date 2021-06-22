@@ -1,0 +1,32 @@
+library(fpp3)
+
+set.seed(511)
+myseries <- aus_retail %>%
+    filter(Industry == sample(aus_retail$Industry,1)) %>%
+    summarise(Turnover=sum(Turnover))
+
+#myseries <- aus_retail %>%
+#    filter(Industry == "Clothing retailing") %>%
+#    summarise(Turnover=sum(Turnover))
+autoplot(myseries) +
+    labs(title='Monthly turnover of food industry in Australia')
+    
+lambda <- myseries %>%
+    features(Turnover, features = guerrero) %>%
+    pull(lambda_guerrero)    
+    
+lambda    
+
+myseries %>%
+    autoplot(box_cox(Turnover, lambda)) +
+    labs(y='', title = 'Transformed food retail turnover with lambda = 0.052')
+
+library(seasonal)
+library(GGally)
+
+x11_dcmp <- myseries %>%
+    model(x11 = X_13ARIMA_SEATS(Turnover ~ x11())) %>%
+    components()
+autoplot(x11_dcmp) +
+    labs(title = "Decomposition of food retail turnover using X-11")
+
