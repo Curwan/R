@@ -2,29 +2,32 @@ library(fpp3)
 str(global_economy)
 unique(global_economy['Country'])
 
-armenia_econ <- global_economy %>%
-  filter(Country=="Armenia", Year >= "1990")
+canada_econ <- global_economy %>%
+  filter(Country=="Canada")
   #summarise(Exports)
 
-armenia_econ %>%
+canada_econ %>%
   autoplot(Exports) +
-    labs(y = '% of GDP', title = 'Exports: Armenia')
+    labs(y = '% of GDP', title = 'Exports: Canada')
 
-fit <- armenia_econ %>%
+train <- canada_econ %>%
+  filter(Year<='2012')
+
+fit <- train %>%
   model(ETS(Exports ~ error("A") + trend("N") + season("N")))
 fc <- fit %>%
   forecast(h=5)
 
 fc %>%
-    autoplot(armenia_econ) +
+    autoplot(canada_econ) +
     geom_line(aes(y = .fitted), col="#D55E00",
              data = augment(fit)) +
-    labs(y="% of GDP", title = "Exports: Armenia") +
+    labs(y="% of GDP", title = "Exports: Canada") +
     guides(colour = FALSE)
  
 accuracy(fit)
 
-fit1 <- armenia_econ %>%
+fit1 <- train %>%
     model(ETS(Exports ~ error("A") + trend("A") + season ("N")))
 accuracy(fit1)
 
@@ -32,10 +35,10 @@ fc1 <- fit1 %>%
     forecast(h=5)
     
 fc1 %>%
-    autoplot(armenia_econ) +
+    autoplot(canada_econ) +
     geom_line(aes(y = .fitted), col="red",
              data = augment(fit1)) +
-    labs(y="% of GDP", title = "Exports: Armenia") +
+    labs(y="% of GDP", title = "Exports: Canada") +
     guides(colour = FALSE)
 
 fit %>%
