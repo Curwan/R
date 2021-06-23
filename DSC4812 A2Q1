@@ -30,3 +30,35 @@ x11_dcmp <- myseries %>%
 autoplot(x11_dcmp) +
     labs(title = "Decomposition of food retail turnover using X-11")
 
+#Apply Holt-Winter multiplicative method to training model
+fit1 <- myseries %>%
+    model(
+        multiplicative = ETS(Turnover ~ error("M") + trend("A") + season("M"))
+    )
+fc1 <- fit1 %>% forecast(h = "3 years")
+fc1 %>%
+    autoplot(myseries, level = NULL) +
+    labs(title="Holt-Winter Multiplicative Turnover",
+             y="Turnover") +
+    guides(colour = guide_legend(title = "Forecast"))
+accuracy(fit1)
+
+#Apply Holt-Winter's Multiplicative method with a damped trend 
+fit2 <- myseries %>%
+    model(
+        multiplicative = ETS(Turnover ~ error("M") + trend("Ad") + season("M"))
+    )
+fc2 <- fit1 %>% forecast(h = "3 years")
+fc2 %>%
+    autoplot(myseries, level = NULL) +
+    labs(title="Holt-Winter Multiplicative Turnover with damped trend",
+             y="Turnover") +
+    guides(colour = guide_legend(title = "Forecast"))
+accuracy(fit2)
+
+#Compare measures of accuracy
+accuracy(fit1)
+accuracy(fit2)
+
+#Evaluate residuals
+gg_tsresiduals(fit1)
