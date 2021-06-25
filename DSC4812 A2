@@ -100,16 +100,16 @@ fc3 <- train %>%
   model(SNAIVE(Arrivals ~ lag("year"))) %>%
   forecast(h=8)
   
-fc4 <- train2 %>%
+comp <- train2 %>%
   model(STL(Arrivals ~ trend(window = 7) + season(window='periodic'),
   robust=TRUE)) %>%
   components()
 
-adjusted <- fc4 %>%  
+adjusted <- comp %>%  
   mutate(Arrivals = season_adjust) %>%
   select(Arrivals)
 
-fc5 <- adjusted %>%
+fc4 <- adjusted %>%
   model(ETS(Arrivals ~ error("M") + trend("N") + season("N"))) %>%
   forecast(h=8)
 
