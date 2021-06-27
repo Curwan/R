@@ -46,6 +46,10 @@ gg_tsresiduals()
 
 fit1 %>%
 gg_tsresiduals()
+
+#Prediction Intervals
+report(fit)
+report(fit1)
 __________________________________________________________________________________________
 library(fpp3)
 
