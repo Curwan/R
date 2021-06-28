@@ -82,28 +82,45 @@ fc %>%
   autoplot(train, level=NULL)+
   autolayer(
     filter_index(trips, '2010 Q4' ~ .), colour = 'black')
-
-#fit_all <- train %>%
-#  model(
-#    ETS(Arrivals ~ error("M") + trend("N") + season("N"),
-    
-
+ 
+#Partition into recent data for graph readibility 
+trips2 <- trips %>%
+    filter(year(Quarter) >= '2004 Q1') %>%
+    summarise(Arrivals=log(Arrivals))
 
 fc1 <- train %>%
   model(ETS(Arrivals ~ error("M") + trend("N") + season("N"))) %>%
   forecast(h=8)
 
+fc1 %>%
+  autoplot(trips2, level=NULL)+
+  autolayer(
+    filter_index(train, '2010 Q4' ~ .), colour = 'black')+
+    labs(title='Model 1 with ETS(M,N,N) forecast')
+
 train2 <- train %>%
   summarise(Arrivals = log(Arrivals))
-  
+
 fc2 <- train2 %>%  
   model(additive = ETS(Arrivals ~ error("A") + trend("A") + season("A"))) %>%
   forecast(h=8)
-  
+
+fc2 %>%
+  autoplot(trips2, level=NULL)+
+  autolayer(
+    filter_index(train2, '2010 Q4' ~ .), colour = 'black')+
+    labs(title='Model 2 with Additive HW forecast to log transformation')
+
 fc3 <- train %>%
   model(SNAIVE(Arrivals ~ lag("year"))) %>%
   forecast(h=8)
-  
+
+fc3 %>%
+  autoplot(trips2, level=NULL)+
+  autolayer(
+    filter_index(train, '2010 Q4' ~ .), colour = 'black')+
+    labs(title='Model 3 with SNAIVE) forecast')
+
 comp <- train2 %>%
   model(STL(Arrivals ~ trend(window = 7) + season(window='periodic'),
   robust=TRUE)) %>%
@@ -117,9 +134,74 @@ fc4 <- adjusted %>%
   model(ETS(Arrivals ~ error("M") + trend("N") + season("N"))) %>%
   forecast(h=8)
 
+fc4 %>%
+  autoplot(trips2, level=NULL)+
+  autolayer(
+    filter_index(train2, '2010 Q4' ~ .), colour = 'black')+
+    labs(title='Model 4 with ETS(M,N,N) forecast to log transformation')
+
 test_all <- fc %>%
   mutate(fc1, fc2, fc3, fc5)
 
 best_fc %>%
 gg_tsresiduals()
+
+
+Cross-Validation training
+cross_train <- trips %>%
+stretch_tsibble(.init=3, .step=1)
+
+#MODEL1
+cross_fit1 <- cross_train %>%
+  model(ETS(Arrivals ~ error("M") + trend("N") + season("N")))
   
+cross_fc1 <- cross_fit1 %>%
+forecast(h=1)
+
+cross_fc1 %>% accuracy(trips)
+fc1 %>% accuracy(trips)
+
+#MODEL2
+log_all <- trips %>%
+summarise(Arrivals=log(Arrivals))
+
+cross_train2 <- log_all %>%
+stretch_tsibble(.init=3, .step=1)
+
+cross_fit2 <- cross_train2 %>%
+  model(ETS(additive = ETS(Arrivals ~ error("A") + trend("A") + season("A")))
+   
+cross_fc2 <- cross_fit2 %>%
+forecast(h=1)
+
+cross_fc2 %>% accuracy(trips2)
+fc2 %>% accuracy(train2)
+
+#MODEL3
+cross_fit3 <- cross_train %>%
+  model(SNAIVE(Arrivals ~ lag("year")))
+
+cross_fc3 <- cross_fit3 %>%
+  forecast(h=1)
+  
+cross_fc3 %>% accuracy(trips)
+fc3 %>% accuracy(trips)
+
+#MODEL4
+comp1 <- log_all %>%
+  model(STL(Arrivals ~ trend(window = 7) + season(window='periodic'),
+  robust=TRUE)) %>%
+  components()
+
+adjusted1 <- comp1 %>%  
+  mutate(Arrivals = season_adjust) %>%
+  select(Arrivals)
+
+cross_fit4 <- adjusted1 %>%
+  model(ETS(Arrivals ~ error("M") + trend("N") + season("N")))
+  
+cross_fc4 <- cross_fit4 %>%
+  forecast(h=1)
+  
+cross_fc4 %>% accuracy(log_all)
+fc4 %>% accuracy(trips2) 
