@@ -10,6 +10,7 @@ data <- readxl::read_excel('tourism.xlsx')
 str(data1)
 str(tourism)
 
+#Crete 
 data1 %>% distinct(State)
 data1 %>%
 filter(Trips == max(Trips))
