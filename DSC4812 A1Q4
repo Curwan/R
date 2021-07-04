@@ -1,5 +1,6 @@
 library(fpp3)
 str(souvenirs)
+
 autoplot(souvenirs) + 
 labs(title = 'Time Plot of Souvenir Sales', y = 'Sales', x = 'Month')
 fit <- souvenirs %>%
@@ -7,6 +8,7 @@ fit <- souvenirs %>%
 report()
 
 fit %>% gg_tsresiduals()
+
 checkresiduals(fit)
 head(augment(fit))
 augment(fit) %>%
@@ -15,10 +17,12 @@ augment(fit) %>%
     labs(title = 'Plot of Residuals over Fitted Values',
     y = 'Innovation Residuals', x = 'Fitted Values')+
     geom_point()  
+    
 augment(fit) %>%
     mutate()
     ggplot(aes(x=Month, y=.innov,)) +
     geom_boxplot()
+    
 augment(fit) %>% features(.innov, ljung_box, lag=16, dof=11)
 print(augment(fit))
 
