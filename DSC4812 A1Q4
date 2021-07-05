@@ -22,7 +22,7 @@ augment(fit) %>%
     mutate()
     ggplot(aes(x=Month, y=.innov,)) +
     geom_boxplot()
-    
+ #    
 augment(fit) %>% features(.innov, ljung_box, lag=16, dof=11)
 print(augment(fit))
 
