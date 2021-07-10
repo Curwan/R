@@ -11,6 +11,7 @@ print_retail <- aus_retail %>%
     group_by(Industry) %>%
     index_by(Year = year(Month)) %>%
     summarise(Turnover = sum(Turnover))
+    
 aus_economy <- global_economy %>%
     filter(Code =="AUS")
 print_retail %>%
