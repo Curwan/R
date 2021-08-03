@@ -1,0 +1,41 @@
+global_economy %>%
+  filter(Code == "EGY") >%
+  autoplot(Exports) +
+  labs(y = "% of GDP", title = "Egyptian Exports")
+
+fit <- global_economy %>%
+  filter(Code == "EGY") %>%
+  model(ARIMA(Exports))
+report(fit)
+
+fit %>% forecast(h=10) %>%
+  autoplot(global_economy) +
+  labs(y = "% of GDP", title = "Egyptian Exports")
+  
+#AFC & PACF PLOTS
+global_economy %>%
+  filter(Code == "EGY") %>%
+  AFC(Exports) %>%
+  autoplot()
+
+global_economy %>%
+  filter(Code == "EGY") %>%
+  PACF(Exports) %>%
+  autoplot()
+
+#Both AFC & PACF can be printed using
+global_economy %>%
+  filter(Code == "EGY") %>%
+  gg_tsdisplay(Exports, plot_type = "partial") %>%
+  autoplot()
+
+fit2 <- global_economy %>%
+  filter(Code == "EGY") %>%
+  model(ARIMA(Exports ~ pdq(4,0,0)))
+report(fit2)
+
+#Specify particular values that pdq() and ARIMA() can search for through
+ARIMA(y ~ pdq(p=1:3, d=1, q=0:2))
+
+
+
