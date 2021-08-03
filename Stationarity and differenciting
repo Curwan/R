@@ -28,3 +28,23 @@ PBS %>%
    facet_grid(vars(Type), scales ="free_y") +
    labs(title = "Corticosteriod drug sales", y = NULL)
    
+#UNIT ROOT TESTS
+google_2015 %>%
+  features(Close, unitroot_kpss)
+
+google_2015 %>%
+  mutate(diff_close = difference(Close)) %>%
+  features(diff_close, unitroot_kpss)
+
+google_2015 %>%
+  features(Close, unitroot_ndiffs)
+
+aus_total_retail <- aus_retail %>%
+  summarise(Turnover = sum(Turnover))
+aus_total_retail %>%
+  mutate(log_turnover = log(Turnover)) %>%
+  features(log_turnover, unitroot_nsdiffs)
+
+aus_total_retail %>%
+  mutate(log_turnover = diffference(log(Turnover), 12)) %>%
+  features(log_turnover, unitroot_ndiffs)
