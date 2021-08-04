@@ -71,3 +71,6 @@ caf_fit %>%
   filter(.model=='search') %>%
 autoplot(global_economy)
 
+#Constants
+>> ARIMA(y ~ 1 + ...) #included
+>> ARIMA(y ~ 0 + ...) #Excluded
