@@ -30,5 +30,16 @@ fit %>% pivot_longer(everything(), names_to = "Model name",
 
 glance(fit) %>% arrange(AICc) %>% select(.model:BIC)
 
-#Check residuals of best model
+#Check residuals of best model and other tests
 fit %>% select(suto) %>% gg_tsresiduals(lag=36)
+
+augment(fit) %>% features(.innov, ljung_box, lag=24, dof=4)
+
+#When all assumptions are met, use model to forecast
+
+forecast(fit, h=36) %>%
+  filter(.model=='auto') %>%
+   autoplot(leisure) +
+   labs(title = "US employment: leisure and hospitality",
+        y="Number of people (millions)")
+
