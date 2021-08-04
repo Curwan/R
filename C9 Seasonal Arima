@@ -1,1 +1,34 @@
+leisure <- us_employment %>%
+  filter(Title == "Leisure and Hospitality",
+        year(Month) > 2000) %>%
+  mutate(Employed = Employed/1000) %>%
+  select(Month, Employed)
+autoplot(title = "US employment: leisure and hospitality",
+         y="Number of people (millions)")
 
+#Take seasonal difference to make stationary
+leisure %>%
+  gg_tsdisplay(difference(Employed, 12),
+               plot_type='partial', lag=36) +
+  labs(title="Seasonally differenced", y="")
+
+#And again
+leisure %>%
+  gg_tsdisplay(difference(Employed, 12) %>% difference(),
+               plot_type='partial', lag=46) +
+  labs(title = "Double differenced", y="")
+
+fit <- leisure %>%
+  model(
+    arima012011 = ARIMA(Employed ~ pdq(0,1,2) + PDQ(0,1,1)),
+    arima210011 = ARIMA(Employed ~ pdq(2,1,0) + PDQ(0,1,1)),
+    auto = ARIMA(Employed, stepwise = FALSE, approx = FALSE)
+    )
+
+fit %>% pivot_longer(everything(), names_to = "Model name",
+                     values_to = "Orders")
+
+glance(fit) %>% arrange(AICc) %>% select(.model:BIC)
+
+#Check residuals of best model
+fit %>% select(suto) %>% gg_tsresiduals(lag=36)
