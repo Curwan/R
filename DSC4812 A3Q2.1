@@ -1,0 +1,15 @@
+library(fpp3)
+
+unique(aus_arrivals$Origin)
+
+uk_arrivals <- aus_arrivals %>%
+    filter(Origin == 'UK') %>%
+    mutate(Arrivals = log(Arrivals)) %>%
+    summarise(Arrivals)
+    
+uk_arrivals
+
+uk_arrivals %>%
+    autoplot()+
+    labs(title='Time plot of Australian arrivals from the UK')
+
