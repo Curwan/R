@@ -42,3 +42,49 @@ adj_box %>%
     gg_tsdisplay(difference(Turnover, 12) %>% difference(),
                  plot_type='partial', lag=48) +
     labs(title = "Double differenced", y="")
+
+adj_box %>%
+    features(Turnover, unitroot_ndiffs)
+    
+adj_box %>%
+    features(Turnover, unitroot_nsdiffs)
+
+myseries %>%
+    mutate(Turnover = difference(Turnover,12)) %>%
+    features(Turnover, unitroot_ndiffs)
+
+myseries %>%
+    features(Turnover, unitroot_nsdiffs)
+
+adj_box %>%
+    mutate(Turnover = difference(Turnover,12)) %>%
+    features(Turnover, unitroot_ndiffs)
+
+fitx <- adj_box %>%
+    model(auto = ARIMA(Turnover, stepwise = FALSE, approx = FALSE))
+
+fitx %>% pivot_longer(everything(), values_to = "Orders")
+
+fit <- adj_box %>%
+  model(
+    arima = ARIMA(Turnover ~ pdq(2,1,0) + PDQ(0,1,2)),
+    auto = ARIMA(Turnover, stepwise = FALSE, approx = FALSE)
+    )
+
+fit %>% pivot_longer(everything(), names_to = "Model name",
+                     values_to = "Orders")
+
+glance(fit) %>% arrange(AICc) %>% select(.model:BIC)
+
+fit %>% select(arima) %>% gg_tsresiduals(lag=36)
+
+augment(fit) %>% features(.innov, ljung_box, lag=24, dof=4)
+
+fc1 <- forecast(fit, h=36) %>%
+   filter(.model=='arima')
+fc1 %>%   
+    autoplot(adj_box) +
+    labs(title = "Australian Food Retail Turnover",
+        y="log(Turnover)")
+
+head(fc1,10)
