@@ -13,4 +13,5 @@ uk_arrivals %>%
     autoplot()+
     labs(title='Time plot of Australian arrivals from the UK')
 
-gfr
+gfrmmm
+
