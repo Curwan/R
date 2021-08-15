@@ -31,4 +31,8 @@ fitx <- uk_arrivals %>%
           auto = ARIMA(Arrivals, stepwise = FALSE, approx = FALSE),
           )
 
+fitx %>% pivot_longer(everything(), values_to = "Orders")
+
+glance(fitx) %>% arrange(AICc) %>% select(.model:BIC)
+
 
