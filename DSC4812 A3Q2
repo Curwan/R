@@ -13,5 +13,22 @@ uk_arrivals %>%
     autoplot()+
     labs(title='Time plot of Australian arrivals from the UK')
 
-gfrmmm
+uk_arrivals %>%
+    features(Arrivals, unitroot_nsdiffs)
+    
+uk_arrivals %>%
+    mutate(Arrivals=difference(Arrivals,4)) %>%
+    features(Arrivals, unitroot_ndiffs)
+    
+uk_arrivals %>%
+    gg_tsdisplay(difference(Arrivals,4) %>% difference(),
+                 plot_type='partial', lag=36) +
+    labs(title='Double differenced', y='')
+
+fitx <- uk_arrivals %>%
+    model(
+          mymodel = ARIMA(Arrivals ~ pdq(4,1,0) + PDQ(0,1,1)),
+          auto = ARIMA(Arrivals, stepwise = FALSE, approx = FALSE),
+          )
+
 
