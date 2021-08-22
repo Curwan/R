@@ -1,7 +1,9 @@
 library(fpp3)
 
+#Inspect the dataset
 unique(aus_arrivals$Origin)
 
+#Extract data to evauluate
 uk_arrivals <- aus_arrivals %>%
     filter(Origin == 'UK') %>%
     mutate(Arrivals = log(Arrivals)) %>%
