@@ -1,6 +1,7 @@
 library(fpp3)
 
 #Inspect the dataset
+
 unique(aus_arrivals$Origin)
 
 #Extract data to evauluate
