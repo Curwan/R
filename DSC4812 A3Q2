@@ -18,6 +18,7 @@ uk_arrivals %>%
     labs(title='Time plot of Australian arrivals from the UK')
 
 #Select order of difference
+
 uk_arrivals %>%
     features(Arrivals, unitroot_nsdiffs)
 
