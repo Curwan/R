@@ -32,6 +32,7 @@ uk_arrivals %>%
     labs(title='Double differenced', y='')
 
 #Use appropriate difference order and selected AR and MA components to create model
+
 fitx <- uk_arrivals %>%
     model(
           mymodel = ARIMA(Arrivals ~ pdq(4,1,0) + PDQ(0,1,1)),
