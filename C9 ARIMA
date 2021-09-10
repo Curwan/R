@@ -13,6 +13,7 @@ fit %>% forecast(h=10) %>%
   labs(y = "% of GDP", title = "Egyptian Exports")
   
 #AFC & PACF PLOTS
+
 global_economy %>%
   filter(Code == "EGY") %>%
   AFC(Exports) %>%
