@@ -1,0 +1,37 @@
+#GENERATING RANDOM NUMBERS
+
+runif(n, min = 0, max =1)
+
+rnorm(n, mean = 0, sd = 1)
+
+rlnorm(n, meanlog, sdlog)
+
+rtruncnorm(n, a, b, mean, sd)
+
+rpois(n, lambda)
+
+rexp(n, rate)
+
+rbinom(n, 1, prob)
+
+rbinom(n, size, prob)
+
+rgamma(n, size, scale)
+ex: rgamma(5, shape = 3, scale = 2)
+
+rbeta(n, shape1, shape2)
+
+rt(n, df, ncp)
+
+rf(n, df1, df2, ncp)
+
+#fitur package
+rdunif(n, min, max)
+
+dis <- DiscreteDistribution(supp = c(x1,...,xm), prob = c(p1,...,pm))
+r(dis)(n)
+
+dis <- AbscontDistribution(d = function(x){exp(-(x^2)/8)/sqrt(8*pi)})}
+r(dis)(10)
+
+
