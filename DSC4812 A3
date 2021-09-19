@@ -1,5 +1,6 @@
 library(fpp3)
 
+Create Sample 
 set.seed(511)
 myseries <- aus_retail %>%
     filter(Industry == sample(aus_retail$Industry,1)) %>%
