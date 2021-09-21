@@ -34,6 +34,8 @@ adj_box %>%
     mutate(Turnover = difference(Turnover,12)) %>%
     features(Turnover, unitroot_ndiffs)
 
+
+
 adj_box %>%
     gg_tsdisplay(difference(Turnover, 12),
                  plot_type="partial", lag=36) +
