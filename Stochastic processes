@@ -30,6 +30,7 @@ rf(n, df1, df2, ncp)
 rdunif(n, min, max)
 
 dis <- DiscreteDistribution(supp = c(x1,...,xm), prob = c(p1,...,pm))
+
 r(dis)(n)
 
 dis <- AbscontDistribution(d = function(x){exp(-(x^2)/8)/sqrt(8*pi)})}
