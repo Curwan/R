@@ -34,6 +34,7 @@ dis <- DiscreteDistribution(supp = c(x1,...,xm), prob = c(p1,...,pm))
 r(dis)(n)
 
 dis <- AbscontDistribution(d = function(x){exp(-(x^2)/8)/sqrt(8*pi)})}
+
 r(dis)(10)
 
 
