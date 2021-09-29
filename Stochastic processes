@@ -26,6 +26,7 @@ rt(n, df, ncp)
 rf(n, df1, df2, ncp)
 
 #fitur package
+
 rdunif(n, min, max)
 
 dis <- DiscreteDistribution(supp = c(x1,...,xm), prob = c(p1,...,pm))
