@@ -1,10 +1,15 @@
 *Selected series: Turnover of Department Stores for New South Wales, Australia
 *Copied collumn and dates to new Excel sheet, then use to import to R
 
+#Import packages and libraries
 library(fpp3)
 install.packages('readx1')
 data <- readxl ::read_excel('portfolio_data.xlsx')
 data1 <- data %>%
     mutate(Month = yearmonth(Month)) %>%
     as_tsibble(index = Month)
-data1
+head(data1)
+
+data1 <- data1 %>%
+    filter(year(Month) >=2000)
+autoplot(data1)    
