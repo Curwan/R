@@ -5,11 +5,37 @@
 library(fpp3)
 install.packages('readx1')
 data <- readxl ::read_excel('portfolio_data.xlsx')
+
+#Create tsibble with Month as index
 data1 <- data %>%
     mutate(Month = yearmonth(Month)) %>%
     as_tsibble(index = Month)
 head(data1)
 
+#Limit dataset from 2000 onwards
 data1 <- data1 %>%
     filter(year(Month) >=2000)
 autoplot(data1)    
+
+#Look at changes between years for seasonal spikes
+data1 %>%
+    gg_season(Turnover, labels = "both") +
+    labs(y = "$ (millions)",
+         title = "Seasonal plot: Turnover of Department Stores")
+ data1 %>% 
+    gg_season(Turnover, period = "year") +
+    labs(y="$ (millions)", title="Department Store Turnover")        
+
+#Look at yearly increase for each month
+data1 %>%
+    gg_subseries(Turnover) +
+    labs(y="$ (millions)", title="Department Store Turnover")
+    
+#Look at autocorrelation within the lags
+data1 %>%
+    gg_lag(Turnover, geom = "point") +
+    labs(x = 'lag(Turnover, k)')
+
+data1 %>%
+    ACF(Turnover, lag_max = 48) %>%
+    autoplot()
