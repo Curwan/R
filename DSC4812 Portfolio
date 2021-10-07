@@ -19,6 +19,7 @@ data1 <- data1 %>%
 autoplot(data1)    
 
 #Look at changes between years for seasonal spikes
+
 data1 %>%
     gg_season(Turnover, labels = "both") +
     labs(y = "$ (millions)",
