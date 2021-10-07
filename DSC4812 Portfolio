@@ -10,6 +10,7 @@ data <- readxl ::read_excel('portfolio_data.xlsx')
 data1 <- data %>%
     mutate(Month = yearmonth(Month)) %>%
     as_tsibble(index = Month)
+    
 head(data1)
 
 #Limit dataset from 2000 onwards
