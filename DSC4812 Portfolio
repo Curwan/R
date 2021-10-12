@@ -29,11 +29,13 @@ data1 %>%
     labs(y="$ (millions)", title="Department Store Turnover")        
 
 #Look at yearly increase for each month
+
 data1 %>%
     gg_subseries(Turnover) +
     labs(y="$ (millions)", title="Department Store Turnover")
     
 #Look at autocorrelation within the lags
+
 data1 %>%
     gg_lag(Turnover, geom = "point") +
     labs(x = 'lag(Turnover, k)')
