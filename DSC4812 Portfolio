@@ -8,6 +8,7 @@ install.packages('readx1')
 data <- readxl ::read_excel('portfolio_data.xlsx')
 
 #Create tsibble with Month as index
+
 data1 <- data %>%
     mutate(Month = yearmonth(Month)) %>%
     as_tsibble(index = Month)
