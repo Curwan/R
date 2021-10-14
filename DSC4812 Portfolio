@@ -51,4 +51,5 @@ TRAIN MODEL
 data_train <- data1 %>%
     filter(year(Month) < 2015)
     
-    
+autoplot(data1, Turnover) + 
+    autolayer(data_train, Turnover, colour = "red")    
