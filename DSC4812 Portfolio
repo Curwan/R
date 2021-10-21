@@ -26,6 +26,7 @@ data1 %>%
     gg_season(Turnover, labels = "both") +
     labs(y = "$ (millions)",
          title = "Seasonal plot: Turnover of Department Stores")
+         
  data1 %>% 
     gg_season(Turnover, period = "year") +
     labs(y="$ (millions)", title="Department Store Turnover")        
