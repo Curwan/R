@@ -53,3 +53,19 @@ data_train <- data1 %>%
     
 autoplot(data1, Turnover) + 
     autolayer(data_train, Turnover, colour = "red")    
+
+FORECAST
+
+fit <- data_train %>%
+    model(SNAIVE(Turnover ~ lag("year")))
+    
+fit %>% gg_tsresiduals()
+
+print(fit)
+
+fc <- fit %>%
+    forecast(new_data = anti_join(data1, data_train))
+fc %>% autoplot(data1)
+
+fit %>% accuracy()
+fc %>% accuracy(data1)
