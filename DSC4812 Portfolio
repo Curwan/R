@@ -70,3 +70,7 @@ fc %>% autoplot(data1)
 
 fit %>% accuracy()
 fc %>% accuracy(data1)
+
+fit1 %>% 
+    gg_tsresiduals() + 
+    labs(title = 'Residual Plots from the SNaive method')
