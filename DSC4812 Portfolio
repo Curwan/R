@@ -77,3 +77,13 @@ fit1 %>%
 
 fit1 %>% augment() %>% features(.resid, box_pierce, lag=24, dof=0)
 augment(fit1) %>% features(.resid, ljung_box, lag=24, dof=0)
+
+data_train2 <- data_train %>%
+    mutate(
+        '5-MA' = slider::slide_dbl(Turnover, mean,
+                                  .before = 2, .after = 2, .complete=TRUE),
+        '12-MA' = slider::slide_dbl(Turnover, mean,
+                                   .before = 1, .after = 6, .complete = TRUE),
+        '2x12-MA' = slider::slide_dbl('12-MA', mean,
+                                     .before = 1, .after = 0, .complete = TRUE)
+    )
