@@ -74,3 +74,6 @@ fc %>% accuracy(data1)
 fit1 %>% 
     gg_tsresiduals() + 
     labs(title = 'Residual Plots from the SNaive method')
+
+fit1 %>% augment() %>% features(.resid, box_pierce, lag=24, dof=0)
+augment(fit1) %>% features(.resid, ljung_box, lag=24, dof=0)
