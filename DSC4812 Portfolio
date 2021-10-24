@@ -87,3 +87,5 @@ data_train2 <- data_train %>%
         '2x12-MA' = slider::slide_dbl('12-MA', mean,
                                      .before = 1, .after = 0, .complete = TRUE)
     )
+
+print(data_train2)
