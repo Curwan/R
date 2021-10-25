@@ -94,6 +94,22 @@ reg_fit <- data_train %>%
     model(TSLM((Turnover) ~ trend() + season())) %>%
 report()
 
+autoplot(data_train, Turnover)+
+autolayer(aug1, .fitted, colour='red')+
+labs(title = 'Department Store Turnover with Fitted Values from Regression Model',
+     y ='Turnover & Fitted Values' , x = 'Month')+
+guides(colour = guide_legend(title='PLots'))
+
+reg_fc <- reg_fit %>% forecast(h = '6 years')
+
+reg_fc %>%
+    autoplot(data_train, level=NULL) +
+    autolayer(
+        filter_index(data1, '2015' ~.),
+        colour='grey') +  
+    labs(title='Turnover projection with Regression')
+    
+
 
 
 
