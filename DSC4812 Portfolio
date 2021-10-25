@@ -109,7 +109,7 @@ reg_fc %>%
         colour='grey') +  
     labs(title='Turnover projection with Regression')
     
-
+reg_fit %>% glance()
 
 
 
