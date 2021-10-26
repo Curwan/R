@@ -129,4 +129,12 @@ ets_fit <- data_train %>%
          
 aug_ets <- augment(ets_fit)
 
+autoplot(data_train, Turnover)+
+autolayer(aug_ets, .fitted)+
+labs(title = 'Department Store Turnover with Fitted Values from ETS Model',
+     y ='Turnover & Fitted Values' , x = 'Month')+
+guides(colour = guide_legend(title="Model"))
+
+glance(ets_fit)
+
 
