@@ -78,6 +78,8 @@ fit1 %>%
 fit1 %>% augment() %>% features(.resid, box_pierce, lag=24, dof=0)
 augment(fit1) %>% features(.resid, ljung_box, lag=24, dof=0)
 
+MOVING AVERAGES
+
 data_train2 <- data_train %>%
     mutate(
         '5-MA' = slider::slide_dbl(Turnover, mean,
@@ -89,6 +91,8 @@ data_train2 <- data_train %>%
     )
 
 print(data_train2)
+
+REGRESSION
 
 reg_fit <- data_train %>%
     model(TSLM((Turnover) ~ trend() + season())) %>%
