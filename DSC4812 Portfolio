@@ -115,5 +115,18 @@ reg_fc %>%
     
 reg_fit %>% glance()
 
+ETS
+
+ets_fit <- data_train %>%
+    model(ETS(Turnover))
+report(ets_fit)
+
+ets_fit <- data_train %>%
+    model(additive = ETS(Turnover ~ error("A") + trend("A") + season("A")),
+         multiplicative = ETS(Turnover ~ error("M") + trend("A") + season("M")),
+         damped = ETS(Turnover ~ error("M") + trend("Ad") + season("M")),
+         auto = ETS(Turnover))
+         
+aug_ets <- augment(ets_fit)
 
 
