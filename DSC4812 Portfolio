@@ -136,5 +136,5 @@ labs(title = 'Department Store Turnover with Fitted Values from ETS Model',
 guides(colour = guide_legend(title="Model"))
 
 glance(ets_fit)
-
+#report(ets_fit
 
