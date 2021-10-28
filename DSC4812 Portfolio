@@ -92,6 +92,14 @@ data_train2 <- data_train %>%
 
 print(data_train2)
 
+data_train2 %>%
+    as_tsibble() %>%
+    filter(year(Month) >= 2002) %>%
+    autoplot(Turnover, colour='grey') +
+    geom_line(aes(y='5-MA'), colour = 'red') +
+    labs(
+        y='Turnover', title='Turnover of Department Sales')
+
 REGRESSION
 
 reg_fit <- data_train %>%
@@ -153,3 +161,23 @@ components(dcmp) %>%
     labs(
         y='Turnover)', title='Turnover of Department Sales')
 
+mult_dcmp <- 
+data_train %>%
+    model(classical_decomposition(Turnover, type ='multiplicative')) %>%
+    components() #%>%
+#    autoplot() +
+#    labs(title =
+#        "Decomposition of AUS Department Sales using Additive Method")
+
+mult_dcmp %>%
+    ggplot(aes(x = Month)) +
+    geom_line(aes(y = Turnover, colour = "Data")) +
+    geom_line(aes(y = season_adjust,
+                 colour = "Seasonally Adjusted")) +
+    geom_line(aes(y = trend, colour = "Trend")) +
+    labs(y = 'Turnover',
+        title ='Turnover with Multiplicative Decomposition') +
+    scale_colour_manual(
+        values = c("grey", "red", "blue"),
+        breaks = c("Data", "Seasonally Adjusted", "Trend")
+)
