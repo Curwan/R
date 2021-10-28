@@ -138,3 +138,18 @@ guides(colour = guide_legend(title="Model"))
 glance(ets_fit)
 #report(ets_fit
 
+DECOMPOSITION
+
+#dcmp <- data_train %>%
+#    model(stl = STL(Turnover))
+#components(dcmp)
+
+components(dcmp) %>% autoplot
+
+components(dcmp) %>%
+    as_tsibble() %>%
+    autoplot(Turnover, colour='grey') +
+    geom_line(aes(y=season_adjust), colour = 'red') +
+    labs(
+        y='Turnover)', title='Turnover of Department Sales')
+
