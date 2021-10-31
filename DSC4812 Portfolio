@@ -183,3 +183,5 @@ mult_dcmp %>%
         values = c("grey", "red", "blue"),
         breaks = c("Data", "Seasonally Adjusted", "Trend")
 )
+
+gg_
