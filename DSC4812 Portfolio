@@ -16,6 +16,7 @@ data1 <- data %>%
 head(data1)
 
 #Limit dataset from 2000 onwards
+
 data1 <- data1 %>%
     filter(year(Month) >=2000)
 autoplot(data1)    
