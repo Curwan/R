@@ -183,7 +183,7 @@ mult_dcmp %>%
         title ='Turnover with Multiplicative Decomposition') +
     scale_colour_manual(
         values = c("grey", "red", "blue"),
-        breaks = c("Data", "Seasonally Adjusted", "Trend")
-)
+        breaks = c("Data", "Seasonally Adjusted", "Trend"))
+
 
 gg_
