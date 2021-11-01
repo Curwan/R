@@ -5,6 +5,7 @@
 #Import packages and libraries
 
 library(fpp3)
+
 install.packages('readx1')
 data <- readxl ::read_excel('portfolio_data.xlsx')
 
