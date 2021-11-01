@@ -1,4 +1,5 @@
 *Selected series: Turnover of Department Stores for New South Wales, Australia
+
 *Copied collumn and dates to new Excel sheet, then use to import to R
 
 #Import packages and libraries
