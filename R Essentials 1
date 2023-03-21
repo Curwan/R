@@ -1,1 +1,34 @@
+We want users to be able to begin in an interactive environment, 
+where they did not consiencely think of themselves as programming.
+Then as their needs become clearer and their sophistication increased,
+they should be able to slide gradually into programming,
+when the language and system aspects would become more important.
+
+Drawbacks:
+There is little support for dynamic / 3D graphics
+
+
+
+
+xx <- 1:10 #Create a series of 10 integers from 1 to 10.
+
+yy <- rnorm(10) #Simulate 10 random observations from a standard normal distribution
+
+objects() #Prints list of all the objects created in session
+ls()
+
+
+plot(xx,yy) #Produce scatter plot
+
+One of the big advantages of working with R is the ability to use libraries developed by users. 
+The base R comes with the following preloaded set of libraries:
+getOption("defaultPackages")  #base packages 
+
+
+
+
+
+
+
+
 
