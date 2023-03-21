@@ -36,9 +36,16 @@ setwd("C:/Users/Curwan/Documents/") #set set to other directory
 setwd("H:Documents/")
 
 x=10
-objects()
+ls() #Prints list of all the objects created in session
 
 rm(x) #Remove objects from workspace
+
+character(0)
+
+options*digets = 16) #Increase number of decimals
+
+**NB HELP function using ? preceding the function
+?getwd
 
 
 
