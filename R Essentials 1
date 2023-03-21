@@ -24,8 +24,21 @@ One of the big advantages of working with R is the ability to use libraries deve
 The base R comes with the following preloaded set of libraries:
 getOption("defaultPackages")  #base packages 
 
+install.packages("BeyesCR") 
+install.packages("BeyesCR", depends=TRUE)
 
+library() #installed packages
 
+Working directories
+getwd() #default saving folderr
+
+setwd("C:/Users/Curwan/Documents/") #set set to other directory
+setwd("H:Documents/")
+
+x=10
+objects()
+
+rm(x) #Remove objects from workspace
 
 
 
