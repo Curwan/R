@@ -35,11 +35,14 @@ getwd() #default saving folderr
 setwd("C:/Users/Curwan/Documents/") #set set to other directory
 setwd("H:Documents/")
 
-x=10
+data = read.table(file="clipboard", header="TRUE") #Import excel file
+
+x=10 #Use "=" or "<-" to assign/create object
+
+x or print(x) #print output
+
 ls() #Prints list of all the objects created in session
-
 rm(x) #Remove objects from workspace
-
 character(0)
 
 options*digets = 16) #Increase number of decimals
@@ -48,7 +51,37 @@ options*digets = 16) #Increase number of decimals
 ?getwd
 
 
+Data Types in R - Different Objects:
+Character, Numeric (Real), Integer, Complex Number, Logical (TRUE or FALSE)
+Most basic Objects:
+Vector - only contains objects of same class
+List - vector with different class objects
 
+attributes() #each object has attributes: Names (Dimnames), Dimensions, Class, Length
+Inf - 1/0 special number to infinity
+NaN - undefined number
 
+vector() #create empty vector
+x = vector("numeric", length = 10) #create vector
+c() #concatenate function to create vectors
+x = c(0.5, 0.6) #Numeric
+x = c(TRUE, FALSE) or x = c(T,F) #Logical
+x = c("a", "b", "c") #Character
+x = c(1+0i, 2+4i) #Complex
 
+If you create a vector and mix objects of different classes it will result in COERCION.
+Implicit Coercion force the vector to take class of most number of entries.
+x = c(1,"a") #Character
+x = c(2, TRUE) #Numeric, since T & F are binary
+x = c("a", TRUE) #Character
 
+Explicit Coercion, you specify the object class:
+x = 0:6
+class(x) #print class of object x
+as.numeric(x) #change class to numeric
+as.logical(x) #
+as.character(x)
+
+x = c("a", "b", "c") #Explicit coercion is not always possible
+as.numeric(x) #Resulting NA introduced by coercion
+as.logical(x) #Cant change Strings as Factors
