@@ -99,5 +99,15 @@ rbind(x,y) #Bind seperate rows to create matrix
 LISTS are special vectores with elements of different classes
 x = list(1, TRUE, "a", 1+4i) #create list 
 
+FACTORS are special vectors for Chategorical Data. Can be ordered or unordered and boolian.
+x = factor(c("a", "b", "b", "a", "a", "b", "b")) #create factor
+table(x) #create table of summed entries
+unclass(x) #1-hot-encoding of characters
 
+LEVELS argument in factor() function to order levels:
+x = factor(c("A", "D", "N", "N", "A", "A", "A", "N", "D", "D"), levels = c("D", "N", "A"))
+attr(x, "levels") #print different categorical entries
 
+MISSING VALUES NaN>>NA
+is.NA() - test if input is missing value, can have class
+is.NaN() - test if input is not a number
