@@ -24,6 +24,9 @@ setwd("H:Documents/")
 
 data = read.table(file="clipboard", header="TRUE") #Import excel file
 
+q() #Quit session
+CTR L #Clear All
+
 x=10 #Use "=" or "<-" to assign/create object
 x or print(x) #print output
 
@@ -76,3 +79,25 @@ as.character(x)
 x = c("a", "b", "c") #Explicit coercion is not always possible
 as.numeric(x) #Resulting NA introduced by coercion
 as.logical(x) #Cant change Strings as Factors
+
+
+MATRICES are vectors that have a dimension attribute
+m = matrix(nrow=2, ncol=3) #create empty matrix with 2 rows and 3 columns
+dim(m)
+attributes(m)
+
+m = matrix(1:6, nrow=2, ncol=3) #Construct matrix column-wise (add numbers to each col first)
+
+m = 1:10
+dim(m) = c(2,5) #Take vector and add dimension attribute to create matrix
+
+x = 1:3
+y = 10:12
+cbind(x,y) #Bind seperate columns to create matrix
+rbind(x,y) #Bind seperate rows to create matrix
+
+LISTS are special vectores with elements of different classes
+x = list(1, TRUE, "a", 1+4i) #create list 
+
+
+
