@@ -111,3 +111,7 @@ attr(x, "levels") #print different categorical entries
 MISSING VALUES NaN>>NA
 is.NA() - test if input is missing value, can have class
 is.NaN() - test if input is not a number
+
+Data Frame
+x = data.frame(foo = 1:4, bar = c(T, F, T, T))
+ 
