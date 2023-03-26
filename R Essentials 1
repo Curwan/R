@@ -122,3 +122,12 @@ row.names #attribute
 nrow(x) #number of rows
 ncol(x) #number of columns
 
+NAMES for objects and elements in R
+x = 1:3
+names(x) #NULL names, only integers
+names(x) = c("To", "be", "or not to be") #assign names to integers, printed: To 1 be 2 or not to be 3
+x = list(a=1, b=2, c=3) #lists can have names
+names(x) #Note how they are printed: $a 1 $b 2 $c 3
+m = matrix(1:4, nrow=2, ncol=2) #create matrix
+dimnames(m) = list(c("a", "b"), c("c", "d")) #add dimention names, NB note deconstucted order
+
