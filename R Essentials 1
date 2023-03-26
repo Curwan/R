@@ -106,11 +106,11 @@ unclass(x) #1-hot-encoding of characters
 
 LEVELS argument in factor() function to order levels:
 x = factor(c("A", "D", "N", "N", "A", "A", "A", "N", "D", "D"), levels = c("D", "N", "A"))
-attr(x, "levels") #print different categorical entries
+attr(x, "levels") #print sum of different categorical entries
 
 MISSING VALUES NaN>>NA
 is.NA() - test if input is missing value, can have class
-is.NaN() - test if input is not a number
+is.NaN() - test if input is not a number (undefined)
 
 DATA FRAME stores tabular data
 Special type of list, each element (column) with same length (number of rows)
@@ -131,3 +131,27 @@ names(x) #Note how they are printed: $a 1 $b 2 $c 3
 m = matrix(1:4, nrow=2, ncol=2) #create matrix
 dimnames(m) = list(c("a", "b"), c("c", "d")) #add dimention names, NB note deconstucted order
 
+SUBSETS and Referencing elements within objects
+[] >> Returns Subset of same type as original object
+[[]] >> Extracts Single element of list or DF
+$ >> Extracts elements by Name
+x = c("a", "b", "c", "d", "e", "f")
+x[1] #Returns "a", 1st object in x
+x[2] #Returns "b", 2nd object
+x[1:4] #Returns "a", "b", "c", "d"
+x[x>"a"] #Returns "b", "c", "d", "e", "f", objects larger than "a"
+u = x>"a" #Create new function u that Returns logical T & F for objects in x
+x[u] #same result as x[x>"a"]
+
+m = matrix(1:6, nrow=2, ncol=3) #Subset Matrices using row & col numbers
+m[1,2] #Returns 3, row 1 column 2 entry (as vector/integer)
+m[1,] #Returns 1 3 5, all entries of row 1 (as vector)
+m[,2] #Returns 2 4, all entries of column 2 (as vector)
+m[1,2, drop=FALSE] #Returns 3, row 1 column 2 entry (as matrix)
+m[1, , drop=FALSE] #Returns 1 3 5, all entries of row 1 (as matrix)
+
+x = list(to=1:4, be=0.6) #Subest Lists with $ or [[]]
+x[1] #Returns $to 1 2 3 4 (as list)
+x[[1]] / x[["to"]] / x$to #Returns 1 2 3 4 (as integer)
+x = list(a=1:4, b=0.6, c="hello") #Use single brackets [] to extract multiple elements
+x[c(1,3)] #Extract 1st & 3rd elements
