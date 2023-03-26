@@ -112,6 +112,13 @@ MISSING VALUES NaN>>NA
 is.NA() - test if input is missing value, can have class
 is.NaN() - test if input is not a number
 
-Data Frame
+DATA FRAME stores tabular data
+Special type of list, each element (column) with same length (number of rows)
+read.table() / read.csv() #create Data Frame, import data
 x = data.frame(foo = 1:4, bar = c(T, F, T, T))
- 
+DF's are matrices that can store different classes of objects
+data.matrix() #Convert DF to matrix
+row.names #attribute
+nrow(x) #number of rows
+ncol(x) #number of columns
+
