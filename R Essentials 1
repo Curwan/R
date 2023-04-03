@@ -165,3 +165,10 @@ sqrt(2) #square root
 exp(1) #Euler's constant
 Pi #pi
 options(digits=10)
+
+read.table() #tabular data
+read.csv() #tabular data
+readLines #reading lines of a text file
+source #reading R scripts
+dget #reading R code file (scripts)
+load #loading saved workspaces
