@@ -166,9 +166,25 @@ exp(1) #Euler's constant
 Pi #pi
 options(digits=10)
 
+READING (IMPORTING) DATA
 read.table() #tabular data
 read.csv() #tabular data
 readLines #reading lines of a text file
-source #reading R scripts
-dget #reading R code file (scripts)
+source #reading R scripts > oposite of dump
+dget #reading R code file (scripts) > oposite of dput
 load #loading saved workspaces
+
+read.tabel Arguments:
+file #name of file
+header #logical, Yes if theres a header line
+sep #how columns are seperated (delimiter)
+colClasses #character vector with classes of each column
+nrows #number of rows
+comment.char #character string of comment character
+skip # number of lines to skip from beginning
+stringsAsFactors #should character variables be coded as factors?
+
+IMPORTING DATASETS
+getwd() #current file directory
+setwd("C/Users/Documents") #change directory
+data <- read.tabel("DataReading.txt") #read text file into R
