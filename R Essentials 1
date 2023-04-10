@@ -135,6 +135,7 @@ SUBSETS and Referencing elements within objects
 [] >> Returns Subset of same type as original object
 [[]] >> Extracts Single element of list or DF
 $ >> Extracts elements by Name
+! #
 x = c("a", "b", "c", "d", "e", "f")
 x[1] #Returns "a", 1st object in x
 x[2] #Returns "b", 2nd object
@@ -187,4 +188,20 @@ stringsAsFactors #should character variables be coded as factors?
 IMPORTING DATASETS
 getwd() #current file directory
 setwd("C/Users/Documents") #change directory
+READ TEXT FILE
 data <- read.tabel("DataReading.txt") #read text file into R
+READ CSV FILE
+data <- rad.csv("DataReading.csv") #read csv file into R *ND comma as defeult delimiter
+READ EXCEL FILE
+1. Save Excel as .txt > Use read.tabel()
+2. Save Excel as .csv > Use read.csv()
+3. Select data on Excel file > Copy to clipboard >
+data <- read.tabel("clipboard") #import copied data from Excel sheet
+>>> R assigns column classes by default or scanning through all columns.
+**Quick method to specify all classes
+initial = read.tabel("Data.txt, nrows=2) #only read few observations *NB nrow=2 not includeing headers
+classes = sapply(initial, class) #loops class function through variables to reated class vector names classes
+print(classes) #saved class of each column
+data = read.tabel("Data.txt", colClasses=classes) #set class of whole dataset to classes vector
+
+
