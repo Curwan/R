@@ -178,9 +178,9 @@ load #loading saved workspaces
 read.tabel Arguments:
 file #name of file
 header #logical, Yes if theres a header line
-sep #how columns are seperated (delimiter)
+sep #how columns are seperated (delimiter) i.e. sep="," sep=';' sep='\t'
 colClasses #character vector with classes of each column
-nrows #number of rows
+nrows #number of rows (excluding header)
 comment.char #character string of comment character
 skip # number of lines to skip from beginning
 stringsAsFactors #should character variables be coded as factors?
@@ -197,6 +197,7 @@ READ EXCEL FILE
 2. Save Excel as .csv > Use read.csv()
 3. Select data on Excel file > Copy to clipboard >
 data <- read.tabel("clipboard") #import copied data from Excel sheet
+
 >>> R assigns column classes by default or scanning through all columns.
 **Quick method to specify all classes
 initial = read.tabel("Data.txt, nrows=2) #only read few observations *NB nrow=2 not includeing headers
@@ -204,4 +205,8 @@ classes = sapply(initial, class) #loops class function through variables to reat
 print(classes) #saved class of each column
 data = read.tabel("Data.txt", colClasses=classes) #set class of whole dataset to classes vector
 
+REMOVE MISSING DATA MANUALLY
+stopifnot(complete.cases(data$Col2) != is.na(data$Col2)) #is.na missing values in column 2
+ok = complete.cases(data$Col2)
+sum(!ok) #how many observations are not ok?
 
