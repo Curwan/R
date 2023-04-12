@@ -217,3 +217,5 @@ for #loops code for fixed number of times
 while #execute code while certain condition is true
 repeat #infinite loop
 break #break execution of a loop
+next #skip an interation of a loop
+return #exit function
