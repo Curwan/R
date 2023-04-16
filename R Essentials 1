@@ -257,3 +257,12 @@ while(z>=3 && z<=10) {
         z <- z+1
     } else {
         z <- z-1}}
+
+NEXT #skip iterations in a loop
+for(i in 1:100) {
+        if(i<=20) {
+                next}
+        else{
+            ##Do something
+        }}
+RETURN function is similar: stops loop and returns particular value
