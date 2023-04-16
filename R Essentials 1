@@ -210,7 +210,7 @@ stopifnot(complete.cases(data$Col2) != is.na(data$Col2)) #is.na missing values i
 ok = complete.cases(data$Col2)
 sum(!ok) #how many observations are not ok?
 
-CONTROL STRUCTURE
+CONTROL STRUCTURES
 if #test condition
 else #test condition
 for #loops code for fixed number of times
@@ -219,3 +219,13 @@ repeat #infinite loop
 break #break execution of a loop
 next #skip an interation of a loop
 return #exit function
+
+IF/ELSE hierarchy of conditions
+if(<condition1>) {
+    ##Do something if condition1 is true
+} else if(<condition2>){
+    ##Do something else if condition2 is true
+} else {
+    ##Do something if both conditions are false
+}
+
