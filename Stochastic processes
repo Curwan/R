@@ -13,7 +13,6 @@ rpois(n, lambda)
 rexp(n, rate)
 
 rbinom(n, 1, prob)
-
 rbinom(n, size, prob)
 
 rgamma(n, size, scale)
@@ -22,7 +21,6 @@ ex: rgamma(5, shape = 3, scale = 2)
 rbeta(n, shape1, shape2)
 
 rt(n, df, ncp)
-
 rf(n, df1, df2, ncp)
 
 #fitur package
